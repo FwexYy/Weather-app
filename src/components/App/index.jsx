@@ -22,17 +22,13 @@ import humidity from "../../assets/images/humidity.png";
 import wind from "../../assets/images/wind.png";
 import sunset from "../../assets/images/sunset.svg";
 import arrow1 from "../../assets/images/arrow1.svg";
-import clouds from "../../assets/images/clouds.png";
-import clear from "../../assets/images/clear.png";
-import rain from "../../assets/images/rain.png";
-import drizzle from "../../assets/images/drizzle.png";
-import mist from "../../assets/images/mist.png";
-import snow from "../../assets/images/snow.png";
 
 import axios from "axios";
 import { useGeolocation } from "../../hooks/useGeolocation";
 import { COORDS_WEATHER_URL, LOCATION_WEATHER_URL } from "../../constants";
 import { getTime } from "../../utils/getTime";
+import { useMemo } from "react";
+import { setWeatherImage } from "../../utils/setWeatherImage";
 
 /* todo данные, фото, опред моей локи и подргузка при запуске. от 0 - 30 смена цвета от темп(от холод к тепл), стрелка с направлением вртеа   */
 
@@ -41,29 +37,9 @@ function App() {
   const [location, setLocation] = useState("");
   const { lat, lon } = useGeolocation();
 
-  let weatherIconSrc;
-
-  switch (data.weather ? data.weather[0].main : null) {
-    case "Clouds":
-      weatherIconSrc = clouds;
-      break;
-    case "Clear":
-      weatherIconSrc = clear;
-      break;
-    case "Rain":
-      weatherIconSrc = rain;
-      break;
-    case "Drizzle":
-      weatherIconSrc = drizzle;
-      break;
-    case "Mist":
-      weatherIconSrc = mist;
-      break;
-    case "Snow":
-      weatherIconSrc = snow;
-    default:
-      weatherIconSrc = "";
-  }
+  const weatherImage = useMemo(() => {
+    return setWeatherImage(data.weather ? data.weather[0].main : null);
+  }, [data]);
 
   useEffect(() => {
     if (lat) {
@@ -182,7 +158,7 @@ function App() {
         </Search>
 
         <div className="weather">
-          <Icon src={weatherIconSrc} alt="2" />
+          <Icon src={weatherImage} alt="2" />
           <City>
             {data.main ? Math.round(data.main.temp - 273.15) : null}°c
           </City>
