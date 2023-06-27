@@ -18,16 +18,17 @@ import {
   ContentWrapper,
 } from "./styles";
 import search from "../../assets/images/search.png";
-import rain from "../../assets/images/rain.png";
 import humidity from "../../assets/images/humidity.png";
 import wind from "../../assets/images/wind.png";
 import sunset from "../../assets/images/sunset.svg";
-import arrow from "../../assets/images/arrow.svg";
+import arrow1 from "../../assets/images/arrow1.svg";
 
 import axios from "axios";
 import { useGeolocation } from "../../hooks/useGeolocation";
 import { COORDS_WEATHER_URL, LOCATION_WEATHER_URL } from "../../constants";
 import { getTime } from "../../utils/getTime";
+import { useMemo } from "react";
+import { setWeatherImage } from "../../utils/setWeatherImage";
 
 /* todo данные, фото, опред моей локи и подргузка при запуске. от 0 - 30 смена цвета от темп(от холод к тепл), стрелка с направлением вртеа   */
 
@@ -35,6 +36,10 @@ function App() {
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
   const { lat, lon } = useGeolocation();
+
+  const weatherImage = useMemo(() => {
+    return setWeatherImage(data.weather ? data.weather[0].main : null);
+  }, [data]);
 
   useEffect(() => {
     if (lat) {
@@ -153,7 +158,7 @@ function App() {
         </Search>
 
         <div className="weather">
-          <Icon src={rain} alt="2" />
+          <Icon src={weatherImage} alt="2" />
           <City>
             {data.main ? Math.round(data.main.temp - 273.15) : null}°c
           </City>
@@ -192,7 +197,7 @@ function App() {
               </div>
             </Col>
             <Col>
-              <ColImage src={arrow} deg={data.wind ? data.wind.deg : null} />
+              <ColImage src={arrow1} deg={data.wind ? data.wind.deg : null} />
               <div>
                 <p>Wind direction</p>
               </div>
