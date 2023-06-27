@@ -3,12 +3,19 @@ import { ServerStyleSheet, styled } from "styled-components";
 export const Card = styled.div`
   width: 90%;
   max-width: 470px;
-  background: linear-gradient(135deg, #00feba, #5b548a);
+  background: linear-gradient(135deg);
   color: #fff;
-  margin: 100px auto 0;
+  margin: 0 auto;
   border-radius: 20px;
-  padding: 40px 35px;
   text-align: center;
+  min-width: 470px;
+  height: 100%;
+  min-height: 650px;
+  overflow: hidden;
+`;
+
+export const ContentWrapper = styled.div`
+  padding: 40px 35px;
 `;
 
 export const Search = styled.div`
@@ -29,6 +36,7 @@ export const SearchInput = styled.input`
   flex: 1;
   margin-right: 16px;
   font-size: 18px;
+  max-width: 350px;
 `;
 
 export const SearchButton = styled.button`
@@ -63,22 +71,27 @@ export const Temperature = styled.h2`
 
 export const Details = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  max-width: 400px;
   padding: 0 20px;
-  margin-top: 50px;
 `;
 export const Col = styled.div`
   display: flex;
   align-items: center;
   text-align: left;
+  margin-top: 35px;
+  width: 150px;
 `;
 export const ColImage = styled.img`
   width: 40px;
   margin-right: 10px;
+  ${(props) => props.deg && `transform: rotate(${props.deg}deg)`};
 `;
 
-export const HumidityWind = styled.p`
-  font-size: 28px;
+export const DetailsInfo = styled.p`
+  font-size: ${(props) => (props.isTime ? "20px" : "24px")};
   margin-top: -6px;
+  width: 107px;
 `;
