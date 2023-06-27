@@ -93,4 +93,5 @@ export const ColImage = styled.img`
 export const DetailsInfo = styled.p`
   font-size: ${(props) => (props.isTime ? "20px" : "24px")};
   margin-top: -6px;
+  width: 107px;
 `;
